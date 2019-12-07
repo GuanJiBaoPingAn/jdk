@@ -26,17 +26,22 @@
 #define SHARE_UTILITIES_MACROS_HPP
 
 // Use this to mark code that needs to be cleaned up (for development only)
+// 用于标记需要被清理的代码
 #define NEEDS_CLEANUP
 
 // Makes a string of the argument (which is not macro-expanded)
+// 将传入参数变为字符串
 #define STR(a)  #a
 
 // Makes a string of the macro expansion of a
+//
 #define XSTR(a) STR(a)
 
 // Allow commas in macro arguments.
+// 允许在宏中使用逗号
 #define COMMA ,
 
+// 将两个宏粘贴在一起
 // Apply pre-processor token pasting to the expansions of x and y.
 // The token pasting operator (##) prevents its arguments from being
 // expanded.  This macro allows expansion of its arguments before the
@@ -580,12 +585,20 @@
 
 #define define_pd_global(type, name, value) const type pd_##name = value;
 
+// 帮助宏，用于构造引入文件名称
 // Helper macros for constructing file names for includes.
 #define CPU_HEADER_STEM(basename) PASTE_TOKENS(basename, INCLUDE_SUFFIX_CPU)
 #define OS_HEADER_STEM(basename) PASTE_TOKENS(basename, INCLUDE_SUFFIX_OS)
 #define OS_CPU_HEADER_STEM(basename) PASTE_TOKENS(basename, PASTE_TOKENS(INCLUDE_SUFFIX_OS, INCLUDE_SUFFIX_CPU))
 #define COMPILER_HEADER_STEM(basename) PASTE_TOKENS(basename, INCLUDE_SUFFIX_COMPILER)
 
+/**
+ * 引入平台独立文件。
+ * 通过指定INCLUDE_SUFFIX_OS、INCLUDE_SUFFIX_CPU、INCLUDE_SUFFIX_COMPILER 来引入平台独立文件。
+ * 如INCLUDE_SUFFIX_OS=_linux / INCLUDE_SUFFIX_CPU=_sparc
+ * CPU_HEADER_INLINE(macroAssembler) --> macroAssembler_sparc.inline.hpp
+ * OS_CPU_HEADER(vmStructs)          --> vmStructs_linux_sparc.hpp
+ */
 // Include platform dependent files.
 //
 // This macro constructs from basename and INCLUDE_SUFFIX_OS /

@@ -27,23 +27,31 @@
 
 #include "runtime/os.hpp"
 
+// 在vm_exit 之前执行
 // Execute code before all handles are released and thread is killed; prologue to vm_exit
 extern void before_exit(JavaThread * thread);
 
+// 强制关闭VM
 // Forced VM exit (i.e, internal error or JVM_Exit)
 extern void vm_exit(int code);
 
+// ::exit() 的包装
 // Wrapper for ::exit()
 extern void vm_direct_exit(int code);
 
+// 关闭VM，但是不退出进程
 // Shutdown the VM but do not exit the process
 extern void vm_shutdown();
+
+// 关闭VM，并暂停进程
 // Shutdown the VM and abort the process
 extern void vm_abort(bool dump_core=true);
 
+// 关闭VM，触发任何需要的通知
 // Trigger any necessary notification of the VM being shutdown
 extern void notify_vm_shutdown();
 
+// VM 初始化过程中出现错误，退出VM
 // VM exit if error occurs during initialization of VM
 extern void vm_exit_during_initialization();
 extern void vm_exit_during_initialization(Handle exception);
@@ -54,6 +62,7 @@ extern void vm_shutdown_during_initialization(const char* error, const char* mes
 extern void vm_exit_during_cds_dumping(const char* error, const char* message = NULL);
 
 /**
+ * JDK 版本字符串处理
  * With the integration of the changes to handle the version string
  * as defined by JEP-223, most of the code related to handle the version
  * string prior to JDK 1.6 was removed (partial initialization)

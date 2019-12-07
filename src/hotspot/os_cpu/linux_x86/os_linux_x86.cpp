@@ -680,7 +680,7 @@ bool os::is_allocatable(size_t bytes) {
 
 ////////////////////////////////////////////////////////////////////////////////
 // thread stack
-
+// 最小需要的可用栈大小，guard pages 在之后添加
 // Minimum usable stack sizes required to get to user code. Space for
 // HotSpot guard pages is added later.
 size_t os::Posix::_compiler_thread_min_stack_allowed = 48 * K;

@@ -35,6 +35,7 @@
 #include "services/memTracker.hpp"
 #include "utilities/ostream.hpp"
 
+// 使用malloc 和 free 的方式分配内存
 // allocate using malloc; will fail if no memory available
 char* AllocateHeap(size_t size,
                    MEMFLAGS flags,

@@ -26,7 +26,10 @@
 // or if the user passes --disable-precompiled-headers to configure.
 
 #ifndef DONT_USE_PRECOMPILED_HEADER
-
+/**
+ * 在2018年11月测试这些头文件包括了至少130 个C++ 文件。这些文件不包括
+ * *.include.hpp 文件，引入会降低构建性能
+ */
 // These header files are included in at least 130 C++ files, as of
 // measurements made in November 2018. This list excludes files named
 // *.include.hpp, since including them decreased build performance.

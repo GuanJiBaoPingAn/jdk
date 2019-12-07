@@ -29,12 +29,14 @@
 #include "utilities/debug.hpp"
 #include "utilities/macros.hpp"
 
+// Java 中访问标识
 // AccessFlags is an abstraction over Java access flags.
 
 class outputStream;
 
 enum {
   // See jvm.h for shared JVM_ACC_XXX access flags
+  // 通用的访问标识键jvm.h 中引用的classfile_constants.h 中定义
 
   // HotSpot-specific access flags
 

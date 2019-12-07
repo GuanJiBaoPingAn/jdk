@@ -33,6 +33,9 @@
 #include "runtime/atomic.hpp"
 #include "utilities/macros.hpp"
 
+/**
+ * oopDesc 为对象类的基类。{name}Desc 用C++ 方式描述Java 对象
+ */
 // oopDesc is the top baseclass for objects classes. The {name}Desc classes describe
 // the format of Java objects so the fields can be accessed from C++.
 // oopDesc is abstract.

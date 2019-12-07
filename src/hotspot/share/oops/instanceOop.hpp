@@ -27,6 +27,7 @@
 
 #include "oops/oop.hpp"
 
+// Java 类的实例，如new HasTable() 会新建一个instanceOop（对象头）
 // An instanceOop is an instance of a Java Class
 // Evaluating "new HashTable()" will create an instanceOop.
 

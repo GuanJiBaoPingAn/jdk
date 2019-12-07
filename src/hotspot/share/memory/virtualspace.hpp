@@ -30,6 +30,7 @@
 
 class outputStream;
 
+// 用于保存一个连续地址范围
 // ReservedSpace is a data structure for reserving a contiguous address range.
 
 class ReservedSpace {

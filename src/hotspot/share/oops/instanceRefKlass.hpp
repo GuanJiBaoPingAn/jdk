@@ -30,6 +30,10 @@
 
 class ClassFileParser;
 
+/**
+ * InstanceRefKlass 为InstanceKlass 的特化，用于java/lang/ref/Reference 的子类
+ * soft/weak/final/phantom 这些类需要GC 特殊处理
+ */
 // An InstanceRefKlass is a specialized InstanceKlass for Java
 // classes that are subclasses of java/lang/ref/Reference.
 //

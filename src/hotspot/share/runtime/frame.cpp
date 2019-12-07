@@ -549,6 +549,7 @@ void frame::print_C_frame(outputStream* st, char* buf, int buflen, address pc) {
     while ((p2 = strstr(p1, os::file_separator())) != NULL) p1 = p2 + len;
     st->print("  [%s+0x%x]", p1, offset);
   } else {
+    // 无法定位到具体的动态库
     st->print("  " PTR_FORMAT, p2i(pc));
   }
 

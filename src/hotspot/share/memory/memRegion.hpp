@@ -29,6 +29,7 @@
 #include "utilities/debug.hpp"
 #include "utilities/globalDefinitions.hpp"
 
+// 连续内存区域，传值不传引用
 // A very simple data structure representing a contigous region
 // region of address space.
 

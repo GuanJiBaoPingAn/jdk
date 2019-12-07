@@ -36,13 +36,13 @@
 
 // A Generation models a heap area for similarly-aged objects.
 // It will contain one ore more spaces holding the actual objects.
-//
+// 对堆区进行类似对象年龄的建模，它有一个活多个区域储存真实对象
 // The Generation class hierarchy:
 //
-// Generation                      - abstract base class
-// - DefNewGeneration              - allocation area (copy collected)
+// Generation                      - abstract base class 抽象基类
+// - DefNewGeneration              - allocation area (copy collected) 分配的区域（复制收集）
 // - CardGeneration                 - abstract class adding offset array behavior
-//   - TenuredGeneration             - tenured (old object) space (markSweepCompact)
+//   - TenuredGeneration             - tenured (old object) space (markSweepCompact) 老年代
 //
 // The system configuration currently allowed is:
 //
@@ -62,6 +62,7 @@ class FastScanClosure;
 class GenCollectedHeap;
 class GCStats;
 
+// ScratchBlock 代表某一个代可用的大小
 // A "ScratchBlock" represents a block of memory in one generation usable by
 // another.  It represents "num_words" free words, starting at and including
 // the address of "this".
@@ -75,7 +76,7 @@ struct ScratchBlock {
 class Generation: public CHeapObj<mtGC> {
   friend class VMStructs;
  private:
-  jlong _time_of_last_gc; // time when last gc on this generation happened (ms)
+  jlong _time_of_last_gc; // time when last gc on this generation happened (ms) 上次gc 发生时间
   MemRegion _prev_used_region; // for collectors that want to "remember" a value for
                                // used region at some specific point during collection.
 
@@ -85,7 +86,7 @@ class Generation: public CHeapObj<mtGC> {
   // Minimum and maximum addresses for memory reserved (not necessarily
   // committed) for generation.
   // Used by card marking code. Must not overlap with address ranges of
-  // other generations.
+  // other generations. 可用的大小，最大最小地址
   MemRegion _reserved;
 
   // Memory area reserved for generation

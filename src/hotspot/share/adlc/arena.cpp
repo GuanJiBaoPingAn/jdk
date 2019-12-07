@@ -111,6 +111,7 @@ size_t Arena::used() const {
 // Grow a new Chunk
 void* Arena::grow( size_t x ) {
   // Get minimal required size.  Either real big, or even bigger for giant objs
+  // 最大为Chunk::size
   size_t len = max(x, Chunk::size);
 
   Chunk *k = _chunk;            // Get filled-up chunk address
@@ -129,17 +130,17 @@ void* Arena::grow( size_t x ) {
 //------------------------------calloc-----------------------------------------
 // Allocate zeroed storage in Arena
 void *Arena::Acalloc( size_t items, size_t x ) {
-  size_t z = items*x;   // Total size needed
-  void *ptr = Amalloc(z);       // Get space
-  memset( ptr, 0, z );          // Zap space
-  return ptr;                   // Return space
+  size_t z = items*x;   // Total size needed 总共需要大小
+  void *ptr = Amalloc(z);       // Get space 获取空间
+  memset( ptr, 0, z );          // Zap space 赋初值
+  return ptr;                   // Return space 返回
 }
 
 //------------------------------realloc----------------------------------------
 // Reallocate storage in Arena.
 void *Arena::Arealloc( void *old_ptr, size_t old_size, size_t new_size ) {
   char *c_old = (char*)old_ptr; // Handy name
-  // Stupid fast special case
+  // Stupid fast special case 当减小时
   if( new_size <= old_size ) {  // Shrink in-place
     if( c_old+old_size == _hwm) // Attempt to free the excess bytes
       _hwm = c_old+new_size;    // Adjust hwm
@@ -153,7 +154,7 @@ void *Arena::Arealloc( void *old_ptr, size_t old_size, size_t new_size ) {
     return c_old;               // Return old pointer
   }
 
-  // Oops, got to relocate guts
+  // Oops, got to relocate guts 重新分配空间复制原有数据，释放原有空间
   void *new_ptr = Amalloc(new_size);
   memcpy( new_ptr, c_old, old_size );
   Afree(c_old,old_size);        // Mostly done to keep stats accurate

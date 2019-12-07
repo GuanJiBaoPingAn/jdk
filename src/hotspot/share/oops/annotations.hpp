@@ -37,6 +37,7 @@ class KlassSizeStats;
 
 typedef Array<u1> AnnotationArray;
 
+// 类上的注解集合。只有InstanceKlass 和类型注解会指向该类
 // Class to hold the various types of annotations. The only metadata that points
 // to this is InstanceKlass, or another Annotations instance if this is a
 // a type_annotation instance.
@@ -47,12 +48,12 @@ class Annotations: public MetaspaceObj {
   // If you add a new field that points to any metaspace object, you
   // must add this field to Annotations::metaspace_pointers_do().
 
-  // Annotations for this class, or null if none.
+  // Annotations for this class, or null if none. 该类的注解组成的数组
   AnnotationArray*             _class_annotations;
   // Annotation objects (byte arrays) for fields, or null if no annotations.
-  // Indices correspond to entries (not indices) in fields array.
+  // Indices correspond to entries (not indices) in fields array. 域注解数组
   Array<AnnotationArray*>*     _fields_annotations;
-  // Type annotations for this class, or null if none.
+  // Type annotations for this class, or null if none. 类型注解
   AnnotationArray*             _class_type_annotations;
   Array<AnnotationArray*>*     _fields_type_annotations;
 

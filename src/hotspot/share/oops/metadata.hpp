@@ -29,6 +29,7 @@
 #include "utilities/globalDefinitions.hpp"
 #include "utilities/ostream.hpp"
 
+// 类元数据的基类
 // This is the base class for an internal Class related metadata
 class Metadata : public MetaspaceObj {
   // Debugging hook to check that the metadata has not been deleted.

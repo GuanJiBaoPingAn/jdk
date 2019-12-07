@@ -27,6 +27,7 @@
 
 #include "utilities/globalDefinitions.hpp"
 
+// init_globals 替换C++ 全局对象，可以使用标准连接器来连接Delta（至少比GNU C++ linker 快两倍）
 // init_globals replaces C++ global objects so we can use the standard linker
 // to link Delta (which is at least twice as fast as using the GNU C++ linker).
 // Also, init.c gives explicit control over the sequence of initialization.

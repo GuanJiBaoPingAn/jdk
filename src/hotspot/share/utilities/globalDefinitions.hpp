@@ -29,6 +29,7 @@
 #include "utilities/debug.hpp"
 #include "utilities/macros.hpp"
 
+// 使用如JVM_T_CHAR JVM_SIGNATURE_INT 的常量
 // Get constants like JVM_T_CHAR and JVM_SIGNATURE_INT, before pulling in <jvm.h>.
 #include "classfile_constants.h"
 
@@ -110,6 +111,7 @@
 #define JULONG_FORMAT_X        UINT64_FORMAT_X
 #endif
 
+// 指针格式化输出
 // Format pointers which change size between 32- and 64-bit.
 #ifdef  _LP64
 #define INTPTR_FORMAT "0x%016" PRIxPTR
@@ -1070,6 +1072,7 @@ inline int build_int_from_shorts( jushort low, jushort high ) {
   return ((int)((unsigned int)high << 16) | (unsigned int)low);
 }
 
+// 将指针转换为 intptr_t，用于打印指针
 // Convert pointer to intptr_t, for use in printing pointers.
 inline intptr_t p2i(const void * p) {
   return (intptr_t) p;

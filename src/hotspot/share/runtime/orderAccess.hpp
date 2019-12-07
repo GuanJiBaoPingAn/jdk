@@ -256,7 +256,7 @@ class ScopedFence : public ScopedFenceGeneral<T> {
 
 class OrderAccess : private Atomic {
  public:
-  // barriers
+  // barriers 内存屏障
   static void     loadload();
   static void     storestore();
   static void     loadstore();

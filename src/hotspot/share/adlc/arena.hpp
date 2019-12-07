@@ -55,7 +55,7 @@ class AllStatic {
 
 
 //------------------------------Chunk------------------------------------------
-// Linked list of raw memory chunks
+// Linked list of raw memory chunks 原始内存块链表
 class Chunk: public CHeapObj {
  private:
   // This ordinary operator delete is needed even though not used, so the
@@ -68,14 +68,14 @@ class Chunk: public CHeapObj {
   Chunk(size_t length);
 
   enum {
-      init_size =  1*1024,      // Size of first chunk
-      size      = 32*1024       // Default size of an Arena chunk (following the first)
+      init_size =  1*1024,      // Size of first chunk 第一块内存块
+      size      = 32*1024       // Default size of an Arena chunk (following the first) 第一块内存块之后的默认块大小
   };
   Chunk*       _next;           // Next Chunk in list
-  size_t       _len;            // Size of this Chunk
+  size_t       _len;            // Size of this Chunk 该块大小
 
-  void chop();                  // Chop this chunk
-  void next_chop();             // Chop next chunk
+  void chop();                  // Chop this chunk 释放该块，包括链表之后的
+  void next_chop();             // Chop next chunk 释放头区块之后的所有
 
   // Boundaries of data area (possibly unused)
   char* bottom() const { return ((char*) this) + sizeof(Chunk);  }
@@ -84,17 +84,17 @@ class Chunk: public CHeapObj {
 
 
 //------------------------------Arena------------------------------------------
-// Fast allocation of memory
+// Fast allocation of memory 快速分配内存
 class Arena: public CHeapObj {
 protected:
   friend class ResourceMark;
   friend class HandleMark;
   friend class NoHandleMark;
-  Chunk *_first;                // First chunk
-  Chunk *_chunk;                // current chunk
-  char *_hwm, *_max;            // High water mark and max in current chunk
-  void* grow(size_t x);         // Get a new Chunk of at least size x
-  size_t _size_in_bytes;          // Size of arena (used for memory usage tracing)
+  Chunk *_first;                // First chunk 第一个区块
+  Chunk *_chunk;                // current chunk 当前区块
+  char *_hwm, *_max;            // High water mark and max in current chunk 当前区块的高位（使用位置）标记和最大标记
+  void* grow(size_t x);         // Get a new Chunk of at least size x 获取一个大小至少为x 的区块
+  size_t _size_in_bytes;          // Size of arena (used for memory usage tracing) 该arena 的大小，用于内存使用跟踪
 public:
   Arena();
   Arena(size_t init_size);
@@ -103,6 +103,7 @@ public:
   char* hwm() const             { return _hwm; }
 
   // Fast allocate in the arena.  Common case is: pointer test + increment.
+  // 在该arena 中快速分配内存
   void* Amalloc(size_t x) {
 #ifdef _LP64
     x = (x + (8-1)) & ((unsigned)(-8));
@@ -144,7 +145,7 @@ public:
   // Determine if pointer belongs to this Arena or not.
   bool contains( const void *ptr ) const;
 
-  // Total of all chunks in use (not thread-safe)
+  // Total of all chunks in use (not thread-safe) 该arena 中所有区块的大小和
   size_t used() const;
 
   // Total # of bytes used

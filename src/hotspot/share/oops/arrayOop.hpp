@@ -28,6 +28,7 @@
 #include "oops/oop.hpp"
 #include "utilities/align.hpp"
 
+// 所有数组的抽象基类。不声明存虚函数而不创建续表
 // arrayOopDesc is the abstract baseclass for all arrays.  It doesn't
 // declare pure virtual to enforce this because that would allocate a vtbl
 // in each instance, which we don't want.

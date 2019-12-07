@@ -90,7 +90,9 @@ enum {
     JVM_T_LONG    = 11
 };
 
-/* Constant Pool Entries */
+/* Constant Pool Entries
+ * jvms Constant pool tags
+ */
 
 enum {
     JVM_CONSTANT_Utf8                   = 1,

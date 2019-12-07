@@ -38,6 +38,7 @@
 #include "jfr/support/jfrTraceIdExtension.hpp"
 #endif
 
+// Klass 子类有的Klass IDs
 // Klass IDs for all subclasses of Klass
 enum KlassID {
   InstanceKlassID,
@@ -56,6 +57,10 @@ const uint KLASS_ID_COUNT = 6;
 //  2: provide vm dispatch behavior for the object
 // Both functions are combined into one C++ class.
 
+/**
+ * 使用oop/klass dichotomy（二分法）的原因是，不希望每个对象有C++ 的虚表指针。
+ * 因此，普通的oops没有任何虚函数。相反，虚函数储存在klass 中。
+ */
 // One reason for the oop/klass dichotomy in the implementation is
 // that we don't want a C++ vtbl pointer in every object.  Thus,
 // normal oops don't have any virtual functions.  Instead, they
@@ -87,6 +92,16 @@ class Klass : public Metadata {
   // for better cache behavior (may not make much of a difference but sure won't hurt)
   enum { _primary_super_limit = 8 };
 
+  /**
+   * 布局帮助，实例和数组之外的为0
+   * 对于实例，为正数，表示实例的大小。
+   * 对于数组，为负数，由四部分组成
+   * [tag, hsz, ebt, log2(esz)]
+   *    tag：是oop时为0x80，不是oop时为0xC0
+   *    hsz：数组头部大小
+   *    ebt：基本类型的元素
+   *    esz：元素大小
+   */
   // The "layout helper" is a combined descriptor of object layout.
   // For klasses which are neither instance nor array, the value is zero.
   //
@@ -136,7 +151,7 @@ class Klass : public Metadata {
   Array<Klass*>* _secondary_supers;
   // Ordered list of all primary supertypes
   Klass*      _primary_supers[_primary_super_limit];
-  // java/lang/Class instance mirroring this class
+  // java/lang/Class instance mirroring this class 该类在Java 中的镜像类（java/lang/Class）
   OopHandle _java_mirror;
   // Superclass
   Klass*      _super;

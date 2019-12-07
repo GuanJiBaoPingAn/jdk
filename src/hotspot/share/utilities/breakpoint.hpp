@@ -25,6 +25,7 @@
 #ifndef SHARE_UTILITIES_BREAKPOINT_HPP
 #define SHARE_UTILITIES_BREAKPOINT_HPP
 
+// 提供断点宏
 // Provide BREAKPOINT macro for requesting stop in the debugger.
 
 // We presently only have one non-default definition, so it's not
@@ -36,6 +37,7 @@
 #endif // _WIN64
 #endif //  TARGET_COMPILER_visCPP
 
+// 没有特殊定义，默认调用平台定义的。如 os::breakpoint()
 // If no more specific definition provided, default to calling a
 // function that is defined per-platform.  See also os::breakpoint().
 #ifndef BREAKPOINT

@@ -33,12 +33,16 @@
 class outputStream;
 class Thread;
 
+// 分配失败时的策略，1：抛出OOM；2：返回null；
 class AllocFailStrategy {
 public:
   enum AllocFailEnum { EXIT_OOM, RETURN_NULL };
 };
 typedef AllocFailStrategy::AllocFailEnum AllocFailType;
 
+/**
+ * VM 不能隐式声明全局分配或删除的函数。
+ */
 // The virtual machine must never call one of the implicitly declared
 // global allocation or deletion functions.  (Such calls may result in
 // link-time or run-time errors.)  For convenience and documentation of
@@ -48,19 +52,21 @@ typedef AllocFailStrategy::AllocFailEnum AllocFailType;
 // Note: std::malloc and std::free should never called directly.
 
 //
+// 为资源区分配对象
 // For objects allocated in the resource area (see resourceArea.hpp).
 // - ResourceObj
 //
+// C 堆中分配对象（使用free & malloc）
 // For objects allocated in the C-heap (managed by: free & malloc and tracked with NMT)
 // - CHeapObj
 //
-// For objects allocated on the stack.
+// For objects allocated on the stack. 栈上分配对象
 // - StackObj
 //
-// For classes used as name spaces.
+// For classes used as name spaces. 名字空间类
 // - AllStatic
 //
-// For classes in Metaspace (class data)
+// For classes in Metaspace (class data) 元数据区类
 // - MetaspaceObj
 //
 // The printable subclasses are used for debugging and define virtual
@@ -98,7 +104,7 @@ typedef AllocFailStrategy::AllocFailEnum AllocFailType;
 // In non product mode we introduce a super class for all allocation classes
 // that supports printing.
 // We avoid the superclass in product mode to save space.
-
+// 在非产品模式为所有分配的类引入一个统一超类用于打印，不在产品模式使用以节省空间
 #ifdef PRODUCT
 #define ALLOCATION_SUPER_CLASS_SPEC
 #else
@@ -148,6 +154,7 @@ class AllocatedObj {
 
 /*
  * Memory types
+ * 内存类型
  */
 enum MemoryType {
   MEMORY_TYPES_DO(MEMORY_TYPE_DECLARE_ENUM)
@@ -229,6 +236,7 @@ template <MEMFLAGS F> class CHeapObj ALLOCATION_SUPER_CLASS_SPEC {
   void  operator delete [] (void* p) { FreeHeap(p); }
 };
 
+// 栈上分配对象的基类，调用new 和delete 会产生致命错误
 // Base class for objects allocated on the stack only.
 // Calling new or delete will result in fatal error.
 
@@ -240,6 +248,9 @@ class StackObj ALLOCATION_SUPER_CLASS_SPEC {
   void  operator delete [](void* p);
 };
 
+/**
+ * 元数据区对象的基类，调用删除会产生致命错误
+ */
 // Base class for objects stored in Metaspace.
 // Calling delete will result in fatal error.
 //
@@ -253,13 +264,18 @@ class MetaspaceClosure;
 
 class MetaspaceObj {
   friend class VMStructs;
+  /**
+   * class data-sharing (CDS) archive
+   * 当CDS 启用时，所有共享的元数据区对象在一块连续空间内，可通过头尾直接判断某个东西是否在区域内，
+   * 当CDS 未启用时，两个指针为空
+   */
   // When CDS is enabled, all shared metaspace objects are mapped
   // into a single contiguous memory block, so we can use these
   // two pointers to quickly determine if something is in the
   // shared metaspace.
   // When CDS is not enabled, both pointers are set to NULL.
-  static void* _shared_metaspace_base;  // (inclusive) low address
-  static void* _shared_metaspace_top;   // (exclusive) high address
+  static void* _shared_metaspace_base;  // (inclusive) low address  共享元数据区尾
+  static void* _shared_metaspace_top;   // (exclusive) high address 共享元数据区头
 
  public:
 
@@ -348,6 +364,7 @@ class MetaspaceObj {
   static bool is_read_only_by_default() { return false; }
 };
 
+// 构成名字空间的基类
 // Base class for classes that constitute name spaces.
 
 class Arena;

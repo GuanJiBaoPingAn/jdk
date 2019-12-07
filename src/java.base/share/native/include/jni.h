@@ -40,7 +40,7 @@
 #include <stdarg.h>
 
 /* jni_md.h contains the machine-dependent typedefs for jbyte, jint
-   and jlong */
+   and jlong 定义了机器相关的类型，保证对上层提供的类型是一致的 */
 
 #include "jni_md.h"
 

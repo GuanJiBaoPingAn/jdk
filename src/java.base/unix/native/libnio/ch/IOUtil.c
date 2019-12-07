@@ -174,7 +174,7 @@ Java_sun_nio_ch_IOUtil_iovMax(JNIEnv *env, jclass this)
 }
 
 /* Declared in nio_util.h for use elsewhere in NIO */
-
+// http://man7.org/linux/man-pages/man2/write.2.html
 jint
 convertReturnVal(JNIEnv *env, jint n, jboolean reading)
 {
@@ -187,6 +187,7 @@ convertReturnVal(JNIEnv *env, jint n, jboolean reading)
             return 0;
         }
     }
+    // n < 0, has error
     else if (errno == EAGAIN || errno == EWOULDBLOCK)
         return IOS_UNAVAILABLE;
     else if (errno == EINTR)

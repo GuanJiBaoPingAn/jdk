@@ -65,55 +65,62 @@
 // agent's Java code (for bootstrapping).
 
 typedef struct {
-  const char* typeName;            // The type name containing the given field (example: "Klass")
-  const char* fieldName;           // The field name within the type           (example: "_name")
-  const char* typeString;          // Quoted name of the type of this field (example: "Symbol*";
+  const char* typeName;            // The type name containing the given field (example: "Klass")包含给定域的类型名称，如Klass
+  const char* fieldName;           // The field name within the type           (example: "_name")域名，如_name
+  const char* typeString;          // Quoted name of the type of this field (example: "Symbol*"; 引号包括的名称，如"Symbol*"
                                    // parsed in Java to ensure type correctness
-  int32_t  isStatic;               // Indicates whether following field is an offset or an address
-  uint64_t offset;                 // Offset of field within structure; only used for nonstatic fields
-  void* address;                   // Address of field; only used for static fields
+  int32_t  isStatic;               // Indicates whether following field is an offset or an address 是否是静态的，是否偏移或地址
+  uint64_t offset;                 // Offset of field within structure; only used for nonstatic fields 域偏移，非静态时使用
+  void* address;                   // Address of field; only used for static fields 域地址，静态域时使用
                                    // ("offset" can not be reused because of apparent solstudio compiler bug
                                    // in generation of initializer data)
 } VMStructEntry;
 
 typedef struct {
-  const char* typeName;            // Type name (example: "Method")
-  const char* superclassName;      // Superclass name, or null if none (example: "oopDesc")
+  const char* typeName;            // Type name (example: "Method") 类型名称，如"Method"
+  const char* superclassName;      // Superclass name, or null if none (example: "oopDesc") 父类名称，没有时为null，如"oopDesc"
   int32_t isOopType;               // Does this type represent an oop typedef? (i.e., "Method*" or
-                                   // "Klass*", but NOT "Method")
-  int32_t isIntegerType;           // Does this type represent an integer type (of arbitrary size)?
-  int32_t isUnsigned;              // If so, is it unsigned?
-  uint64_t size;                   // Size, in bytes, of the type
+                                   // "Klass*", but NOT "Method") 该类型是否是oop类型"Method*"或 "Klass*"，但不是"Method"
+  int32_t isIntegerType;           // Does this type represent an integer type (of arbitrary size)? 是否是整型类型
+  int32_t isUnsigned;              // If so, is it unsigned? 如果是整型类型，是否是无符号的
+  uint64_t size;                   // Size, in bytes, of the type 该类型的大小
 } VMTypeEntry;
 
 typedef struct {
-  const char* name;                // Name of constant (example: "_thread_in_native")
-  int32_t value;                   // Value of constant
-} VMIntConstantEntry;
+  const char* name;                // Name of constant (example: "_thread_in_native") 常量名称
+  int32_t value;                   // Value of constant 常量值
+} VMIntConstantEntry;              // Int 型常量
 
 typedef struct {
-  const char* name;                // Name of constant (example: "_thread_in_native")
-  uint64_t value;                  // Value of constant
-} VMLongConstantEntry;
+  const char* name;                // Name of constant (example: "_thread_in_native") 常量名称
+  uint64_t value;                  // Value of constant 常量值
+} VMLongConstantEntry;             // Long 型常量
 
 typedef struct {
-  const char* name;                // Name of address (example: "SharedRuntime::register_finalizer")
-  void* value;                     // Value of address
-} VMAddressEntry;
+  const char* name;                // Name of address (example: "SharedRuntime::register_finalizer") 地址名称
+  void* value;                     // Value of address 地址值
+} VMAddressEntry;                  // 地址
 
+/**
+ * 该类是大多数类的friend 类，能够方法私有域
+ */
 // This class is a friend of most classes, to be able to access
 // private fields
 class VMStructs {
 public:
+  // serviceability agent 确认过的最后一个entry，有一个为NULL 的fieldName
   // The last entry is identified over in the serviceability agent by
   // the fact that it has a NULL fieldName
   static VMStructEntry localHotSpotVMStructs[];
+  // 获取 localHotSpotVMStructs 长度
   // The function to get localHotSpotVMStructs length
   static size_t localHotSpotVMStructsLength();
 
+  // serviceability agent 确认过的最后一个entry，有一个为NULL 的typeName
   // The last entry is identified over in the serviceability agent by
   // the fact that it has a NULL typeName
   static VMTypeEntry   localHotSpotVMTypes[];
+  // 获取 localHotSpotVMTypes 长度
   // The function to get localHotSpotVMTypes length
   static size_t localHotSpotVMTypesLength();
 

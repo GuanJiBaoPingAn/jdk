@@ -730,7 +730,7 @@ void VMError::report(outputStream* st, bool _verbose) {
                            : os::current_frame();
 
        print_native_stack(st, fr, _thread, buf, sizeof(buf));
-     }
+     }FileDispatcherImpl
    }
 
   STEP("printing Java stack")

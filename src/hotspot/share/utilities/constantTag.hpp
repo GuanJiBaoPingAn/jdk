@@ -31,21 +31,22 @@
 
 class outputStream;
 
+// Java .class 文件中的常量标签
 // constant tags in Java .class files
 
 enum {
   // See jvm.h for shared JVM_CONSTANT_XXX tags
   // NOTE: replicated in SA in vm/agent/sun/jvm/hotspot/utilities/ConstantTag.java
-  // Hotspot specific tags
-  JVM_CONSTANT_Invalid                  = 0,    // For bad value initialization
-  JVM_CONSTANT_InternalMin              = 100,  // First implementation tag (aside from bad value of course)
-  JVM_CONSTANT_UnresolvedClass          = 100,  // Temporary tag until actual use
-  JVM_CONSTANT_ClassIndex               = 101,  // Temporary tag while constructing constant pool
-  JVM_CONSTANT_StringIndex              = 102,  // Temporary tag while constructing constant pool
-  JVM_CONSTANT_UnresolvedClassInError   = 103,  // Error tag due to resolution error
-  JVM_CONSTANT_MethodHandleInError      = 104,  // Error tag due to resolution error
-  JVM_CONSTANT_MethodTypeInError        = 105,  // Error tag due to resolution error
-  JVM_CONSTANT_DynamicInError           = 106,  // Error tag due to resolution error
+  // Hotspot specific tags Hotspot 特定标签
+  JVM_CONSTANT_Invalid                  = 0,    // For bad value initialization 错误值初始化
+  JVM_CONSTANT_InternalMin              = 100,  // First implementation tag (aside from bad value of course) 第一次实现标签
+  JVM_CONSTANT_UnresolvedClass          = 100,  // Temporary tag until actual use 真实使用之前的临时标签
+  JVM_CONSTANT_ClassIndex               = 101,  // Temporary tag while constructing constant pool 构建常量池时临时标签
+  JVM_CONSTANT_StringIndex              = 102,  // Temporary tag while constructing constant pool 构建常量池时临时标签
+  JVM_CONSTANT_UnresolvedClassInError   = 103,  // Error tag due to resolution error 解析错误时的错误标签
+  JVM_CONSTANT_MethodHandleInError      = 104,  // Error tag due to resolution error 解析错误时的错误标签
+  JVM_CONSTANT_MethodTypeInError        = 105,  // Error tag due to resolution error 解析错误时的错误标签
+  JVM_CONSTANT_DynamicInError           = 106,  // Error tag due to resolution error 解析错误时的错误标签
   JVM_CONSTANT_InternalMax              = 106   // Last implementation tag
 };
 

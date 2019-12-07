@@ -68,6 +68,8 @@ public:
   // provided on SPARC/X86. We assume that strength is necessary unless
   // we can prove that a weaker form is sufficiently safe.
 
+  // 原子储存到一个地址，类型T 必须为可转换为D的指针类型，integral/enum 类型
+  // 或可用PrimitiveConversions 进行转换的类型
   // Atomically store to a location
   // The type T must be either a pointer type convertible to or equal
   // to D, an integral/enum type equal to D, or a type equal to D that
@@ -75,12 +77,15 @@ public:
   template<typename T, typename D>
   inline static void store(T store_value, volatile D* dest);
 
+  // 原子加载一个地址，类型T 必须为指针类型、integral/enum类型或可用PrimitiveConversions
+  // 进行转换的类型
   // Atomically load from a location
   // The type T must be either a pointer type, an integral/enum type,
   // or a type that is primitive convertible using PrimitiveConversions.
   template<typename T>
   inline static T load(const volatile T* dest);
 
+  // 对某个地址进行原子加。
   // Atomically add to a location. Returns updated value. add*() provide:
   // <fence> add-value-to-dest <membar StoreLoad|StoreStore>
 

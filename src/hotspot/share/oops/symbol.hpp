@@ -29,17 +29,21 @@
 #include "utilities/exceptions.hpp"
 #include "utilities/macros.hpp"
 
+// Symbol 是正式字符串名称，所有的Symbol 都储存在全局SymbolTable 中，并使用引用计数
 // A Symbol is a canonicalized string.
 // All Symbols reside in global SymbolTable and are reference counted.
 
 // Reference counting
 //
+// 所有的Symbol 都储存在全局SymbolTable 中。当类卸载，常量池和InstanceKlass 中Symbol指针
+// 引用计数减少。当Symbol 的引用计数降为0时，GC 可以从SymbolTable 中回收该Symbol
 // All Symbols are allocated and added to the SymbolTable.
 // When a class is unloaded, the reference counts of the Symbol pointers in
 // the ConstantPool and in InstanceKlass (see release_C_heap_structures) are
 // decremented.  When the reference count for a Symbol goes to 0, the garbage
 // collector can free the Symbol and remove it from the SymbolTable.
 //
+// Symbols 需要被引用计数，当Symbol指针被储存在持久化储存中时。
 // 0) Symbols need to be reference counted when a pointer to the Symbol is
 // saved in persistent storage.  This does not include the pointer
 // in the SymbolTable bucket (the _literal field in HashtableEntry)
@@ -47,6 +51,9 @@
 // to a field of a persistent variable (e.g., the _name filed in
 // fieldDescriptor or _ptr in a CPSlot) is reference counted.
 //
+// 从SymbolTable 查询一个“name”会返回一个已存在的指针或新建一个，两种情况引用计数都会增加。
+// 引用计数在lookup() 调用时增加，而不是赋值时增加。当产生的Symbol 指针被销毁时需手动减少
+// 引用计数。
 // 1) The lookup of a "name" in the SymbolTable either creates a Symbol F for
 // "name" and returns a pointer to F or finds a pre-existing Symbol F for
 // "name" and returns a pointer to it. In both cases the reference count for F
@@ -61,6 +68,7 @@
 // The reference count must be decremented manually when the copy of the
 // pointer G is destroyed.
 //
+// 局部Symbol* A 是Symbol* B 的复制时，当B 的作用域比A 大时，A 的引用计数会被忽略。
 // 2) For a local Symbol* A that is a copy of an existing Symbol* B, the
 // reference counting is elided when the scope of B is greater than the scope
 // of A.  For example, in the code fragment
@@ -73,6 +81,7 @@
 // The scope of "klass" is greater than the scope of "kn" so the reference
 // counting for "kn" is elided.
 //
+// 来自常量池的Symbol* 复制通常会忽略引用计数。
 // Symbol* copied from ConstantPool entries are good candidates for reference
 // counting elision.  The ConstantPool entries for a class C exist until C is
 // unloaded.  If a Symbol* is copied out of the ConstantPool into Symbol* X,

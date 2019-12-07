@@ -25,6 +25,7 @@
 #ifndef SHARE_UTILITIES_COMPILERWARNINGS_HPP
 #define SHARE_UTILITIES_COMPILERWARNINGS_HPP
 
+// 用于控制编译器异常相关的宏
 // Macros related to control of compiler warnings.
 
 #include "utilities/macros.hpp"

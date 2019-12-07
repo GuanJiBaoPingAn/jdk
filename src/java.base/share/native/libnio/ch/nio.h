@@ -25,9 +25,9 @@
 
 #include "sun_nio_ch_IOStatus.h"
 
-#define IOS_EOF              (sun_nio_ch_IOStatus_EOF)
-#define IOS_UNAVAILABLE      (sun_nio_ch_IOStatus_UNAVAILABLE)
-#define IOS_INTERRUPTED      (sun_nio_ch_IOStatus_INTERRUPTED)
-#define IOS_UNSUPPORTED      (sun_nio_ch_IOStatus_UNSUPPORTED)
-#define IOS_THROWN           (sun_nio_ch_IOStatus_THROWN)
-#define IOS_UNSUPPORTED_CASE (sun_nio_ch_IOStatus_UNSUPPORTED_CASE)
+#define IOS_EOF              (sun_nio_ch_IOStatus_EOF)              // -1
+#define IOS_UNAVAILABLE      (sun_nio_ch_IOStatus_UNAVAILABLE)      // -2
+#define IOS_INTERRUPTED      (sun_nio_ch_IOStatus_INTERRUPTED)      // -3
+#define IOS_UNSUPPORTED      (sun_nio_ch_IOStatus_UNSUPPORTED)      // -4
+#define IOS_THROWN           (sun_nio_ch_IOStatus_THROWN)           // -5
+#define IOS_UNSUPPORTED_CASE (sun_nio_ch_IOStatus_UNSUPPORTED_CASE) // -6

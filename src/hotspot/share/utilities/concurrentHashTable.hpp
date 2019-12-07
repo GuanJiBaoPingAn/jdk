@@ -30,6 +30,7 @@
 #include "utilities/globalDefinitions.hpp"
 #include "utilities/tableStatistics.hpp"
 
+// 并发哈希表，读是wait-free，写是CAS，
 // A mostly concurrent-hash-table where the read-side is wait-free, inserts are
 // CAS and deletes mutual exclude each other on per bucket-basis. VALUE is the
 // type kept inside each Node and CONFIG contains hash and allocation methods.
@@ -42,6 +43,7 @@ template <typename CONFIG, MEMFLAGS F>
 class ConcurrentHashTable : public CHeapObj<F> {
   typedef typename CONFIG::Value VALUE;
  private:
+  // 内部节点结构
   // This is the internal node structure.
   // Only constructed with placement new from memory allocated with MEMFLAGS of
   // the InternalTable or user-defined memory.

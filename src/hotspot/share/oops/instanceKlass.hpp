@@ -41,7 +41,10 @@
 #include "jfr/support/jfrKlassExtension.hpp"
 #endif
 
-
+/**
+ * InstanceKlass 是VM 级别的Java 类，保存了类在运行期的所有信息
+ *
+ */
 // An InstanceKlass is the VM level representation of a Java class.
 // It contains all information needed for at class at execution runtime.
 
@@ -131,14 +134,14 @@ class InstanceKlass: public Klass {
   InstanceKlass() { assert(DumpSharedSpaces || UseSharedSpaces, "only for CDS"); }
 
   // See "The Java Virtual Machine Specification" section 2.16.2-5 for a detailed description
-  // of the class loading & initialization procedure, and the use of the states.
+  // of the class loading & initialization procedure, and the use of the states. 类加载和初始化的过程
   enum ClassState {
-    allocated,                          // allocated (but not yet linked)
-    loaded,                             // loaded and inserted in class hierarchy (but not linked yet)
-    linked,                             // successfully linked/verified (but not initialized yet)
-    being_initialized,                  // currently running class initializer
-    fully_initialized,                  // initialized (successfull final state)
-    initialization_error                // error happened during initialization
+    allocated,                          // allocated (but not yet linked) 已分配空间
+    loaded,                             // loaded and inserted in class hierarchy (but not linked yet) 已加载
+    linked,                             // successfully linked/verified (but not initialized yet) 已连接
+    being_initialized,                  // currently running class initializer 初始化中
+    fully_initialized,                  // initialized (successfull final state) 初始化完成
+    initialization_error                // error happened during initialization 初始化错误
   };
 
  private:
@@ -148,13 +151,13 @@ class InstanceKlass: public Klass {
   // If you add a new field that points to any metaspace object, you
   // must add this field to InstanceKlass::metaspace_pointers_do().
 
-  // Annotations for this class
+  // Annotations for this class 该类的注解
   Annotations*    _annotations;
-  // Package this class is defined in
+  // Package this class is defined in 该类的包
   PackageEntry*   _package_entry;
-  // Array classes holding elements of this class.
+  // Array classes holding elements of this class.将该类作为元素的数组
   Klass* volatile _array_klasses;
-  // Constant pool for this class.
+  // Constant pool for this class. 该类的常量池
   ConstantPool* _constants;
   // The InnerClasses attribute and EnclosingMethod attribute. The
   // _inner_classes is an array of shorts. If the class has InnerClasses
@@ -278,15 +281,15 @@ class InstanceKlass: public Klass {
 
   NOT_PRODUCT(int _verify_count;)  // to avoid redundant verifies
 
-  // Method array.
+  // Method array. 方法数组
   Array<Method*>* _methods;
-  // Default Method Array, concrete methods inherited from interfaces
+  // Default Method Array, concrete methods inherited from interfaces 默认方法数组，从接口中继承的方法
   Array<Method*>* _default_methods;
-  // Interfaces (InstanceKlass*s) this class declares locally to implement.
+  // Interfaces (InstanceKlass*s) this class declares locally to implement. 该类实现的接口
   Array<InstanceKlass*>* _local_interfaces;
-  // Interfaces (InstanceKlass*s) this class implements transitively.
+  // Interfaces (InstanceKlass*s) this class implements transitively. 继承的接口
   Array<InstanceKlass*>* _transitive_interfaces;
-  // Int array containing the original order of method in the class file (for JVMTI).
+  // Int array containing the original order of method in the class file (for JVMTI). 方法顺序
   Array<int>*     _method_ordering;
   // Int array containing the vtable_indices for default_methods
   // offset matches _default_methods offset

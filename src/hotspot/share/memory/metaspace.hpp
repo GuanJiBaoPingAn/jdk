@@ -33,7 +33,8 @@
 #include "utilities/exceptions.hpp"
 
 // Metaspace
-//
+// 元空间
+// 每个类加载器对象分配一个
 // Metaspaces are Arenas for the VM's metadata.
 // They are allocated one per class loader object, and one for the null
 // bootstrap class loader
